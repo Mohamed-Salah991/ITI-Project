@@ -10,6 +10,7 @@ import { JewerlyComponent } from './jewerly/jewerly.component';
 import { DetailsComponent } from './details/details.component';
 import { CartComponent } from './cart/cart.component';
 import { FormsModule } from '@angular/forms';
+import { FavoriteComponent } from './favorite/favorite.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     ClothesComponent,
     JewerlyComponent,
     DetailsComponent,
-    CartComponent
+    CartComponent,
+    FavoriteComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +33,9 @@ import { FormsModule } from '@angular/forms';
       {path:'Electronicss Department',component:ElectronicComponent},
       {path:'Clothes Department',component:ClothesComponent},
       {path:'Jewerly Department',component:JewerlyComponent}, 
-      {path:'getSingleElectronics/:id',component:DetailsComponent},
-      {path:'cart',component:CartComponent}
+      {path:'geSingleProduct/:id',component:DetailsComponent},
+      {path:'cart',component:CartComponent}, 
+      {path:'favorite',component:FavoriteComponent}, 
     ])
 
   ],

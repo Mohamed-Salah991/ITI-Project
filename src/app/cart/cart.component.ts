@@ -21,17 +21,19 @@ export class CartComponent implements OnInit {
     console.log(this.cartProducts); 
     this.getCartTotal(); 
   }
-  addAmount(index:number){
-    this.cartProducts[index].Quantity++; 
+  
+  update(){
     localStorage.setItem("cart",JSON.stringify(this.cartProducts)); 
     this.getCartTotal(); 
+  }
+  addAmount(index:number){
+    this.cartProducts[index].Quantity++; 
+    this.update(); 
   }
   minsAmount(index:number){
     if(this.cartProducts[index].Quantity > 1){
       this.cartProducts[index].Quantity--; 
-      localStorage.setItem("cart",JSON.stringify(this.cartProducts)); 
-      this.getCartTotal(); 
-
+      this.update(); 
     }
 
   }
@@ -42,5 +44,13 @@ export class CartComponent implements OnInit {
     }
   }
 
+  deleteProduct(index:number){
+    this.cartProducts.splice(index,1); 
+    this.update(); 
+  }
+  ClearCart(){
+    this.cartProducts = []; 
+    this.update(); 
+  }
 
 }

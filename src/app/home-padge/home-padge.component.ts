@@ -9,48 +9,51 @@ import { ShopService } from '../shop.service';
   styleUrls: ['./home-padge.component.css']
 })
 export class HomePadgeComponent implements OnInit {
-shoparr:any=[]
-electronics:any=[]; 
-Clothes :any=[]; 
-Phones:any=[]; 
-cartProducts:any[]=[]; 
+allProducts:any[]=[]
+private _searchFilter:string = ''; 
+filterBySearch:any[] = []; 
   constructor(private route:ActivatedRoute,private allshop:ShopService) { }
 
   ngOnInit(): void {
-
 this.allshop.geElectronics().subscribe({next:(data)=>{
-  this.electronics = data; 
+  this.allProducts = [...data];  
+  console.log("--------------------1 ",this.allProducts)
+  this.filterBySearch = this.allProducts; 
 }})
 
 this.allshop.geClothes().subscribe({next:(data)=>{
-  this.Clothes = data; 
+  this.allProducts.push(...data); 
+  console.log("--------------------2 ",this.allProducts)
+  this.filterBySearch = this.allProducts; 
 }})
 
-this.allshop.gePhones().subscribe({next:(data)=>{
-  this.Phones = data; 
+this.allshop.getFurniture().subscribe({next:(data)=>{
+  this.allProducts.push(...data);  
+  console.log("--------------------3 ",this.allProducts)
+  this.filterBySearch = this.allProducts; 
 }})
 }
 
+get searchFilter():string{
+  return this._searchFilter
+}
+set searchFilter(value:string){ 
+  this._searchFilter = value; 
+  this.filterBySearch = this.filterProduct(value); 
+}
+
+filterProduct(val:string){
+  return this.allProducts.filter((product) =>
+  product.Name.toLocaleLowerCase().includes(val.toLocaleLowerCase())
+);
+}
+
 addToCart(product:any){
-  console.log("ADD To Cart "); 
-  console.log(product);
-  product.Quantity = 1 ; 
-  console.log(product); 
-  if('cart' in localStorage){
-    this.cartProducts = JSON.parse(localStorage.getItem("cart")!); 
-    let exist = this.cartProducts.find(item =>item.ProductID == product.ProductID); 
-    if(exist){
-      alert("Product is already in your cart"); 
-    }
-    else{
-      this.cartProducts.push(product); 
-      localStorage.setItem("cart",JSON.stringify(this.cartProducts)); 
-    }
-  }
-  else {
-    this.cartProducts.push(product); 
-    localStorage.setItem("cart",JSON.stringify(this.cartProducts)); 
-  }
+  this.allshop.addToCartService(product); 
+}
+
+addToFavorite(product:any){
+  this.allshop.addToFavoriteService(product); 
 }
 }
 

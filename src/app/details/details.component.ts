@@ -14,11 +14,16 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     const id=this.route.snapshot.paramMap.get('id')
     console.log("this ID ",id)
-    this.allshop.geSingleElectronics(id).subscribe({next:(data)=>{
+    this.allshop.geSingleProduct(id).subscribe({next:(data)=>{
       this.singleProdect = data; 
       console.log("Single Product")
       console.log(this.singleProdect);
     }})
   }
-
+  addToCart(product:any){
+    this.allshop.addToCartService(product); 
+  }
+  addToFavorite(product:any){
+    this.allshop.addToFavoriteService(product); 
+  }
 }
